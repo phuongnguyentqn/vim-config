@@ -48,7 +48,9 @@ Plug 'neomake/neomake'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf.vim'
+Plug '~/.fzf'
 
 if has('nvim')
   function! DoRemote(arg)
@@ -240,6 +242,7 @@ let test#strategy = "neovim"
 set timeoutlen=1000 ttimeoutlen=0
 if has("autocmd")
   autocmd VimEnter * call AirlineInit()
+  autocmd VimEnter * call IndentGuideToggle()
   autocmd BufWritePre * StripWhitespace
   autocmd BufWritePost * Neomake
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -258,12 +261,8 @@ set rtp+=/usr/local/opt/fzf
 "========================================================
 " FUNCTIONS
 "========================================================
-" Update ruby ctags
 function! URT()
-  return system('ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)')
-endfunction
-function! UET()
-  return system('ctags -R --languages=elixir --exclude=.git --exclude=log .')
+  return system('ctags -R --languages=python --exclude=.git --exclude=log . $(bundle list --paths)')
 endfunction
 
 " Toogle indents
@@ -299,7 +298,6 @@ endfunction
 " MAPPING MISC
 "========================================================
 map <silent> <leader>urt <ESC>:call URT()<CR>
-map <silent> <leader>uet <ESC>:call UET()<CR>
 map <silent> <leader>i <ESC>:call IndentGuideToggle()<CR>
 map <silent> <leader>hi :History<CR>
 map <silent> <leader><leader> <C-^><CR>
